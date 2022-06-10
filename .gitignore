@@ -1,0 +1,16 @@
+# JetBrains IDEs - PhpStorm
+/.idea
+
+# Microsoft IDEs - VSCode
+/.vscode
+!/.vscode/settings.json
+!/.vscode/tasks.json
+!/.vscode/launch.json
+!/.vscode/extensions.json
+
+# Dependencies
+node_modules
+
+# System Files
+.DS_Store
+Thumbs.db

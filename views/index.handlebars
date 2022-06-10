@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{title}}</title>
+    <base href="{{baseHref}}" />
+    <link rel="stylesheet" href="{{elements-css}}">
+  </head>
+  <body>
+    <elements-api
+      apiDescriptionUrl="{{elements.apiDescriptionUrl}}"
+      basePath="{{elements.basePath}}"
+      hideInternal="{{elements.hideInternal}}"
+      hideTryIt="{{elements.hideTryIt}}"
+      tryItCorsProxy="{{elements.tryItCorsProxy}}"
+      layout="{{elements.layout}}"
+      router="{{elements.router}}"
+      style="{{elements.style}}"
+    ></elements-api>
+    <script async defer src="{{elements-js}}"></script>
+    {{#if livereload-js}}
+    <script async defer src="{{livereload-js}}?snipver=1"></script>
+    {{/if}}
+  </body>
+</html>

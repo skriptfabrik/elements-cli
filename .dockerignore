@@ -1,0 +1,22 @@
+# GitHub
+/.github
+
+# JetBrains IDEs - PhpStorm
+/.idea
+
+# Microsoft IDEs - VSCode
+/.vscode
+
+# Dependencies
+node_modules
+
+# Misc
+.dockerignore
+.editorconfig
+.git*
+Dockerfile
+README.md
+
+# System Files
+.DS_Store
+Thumbs.db
