@@ -4,7 +4,7 @@
 
 # Elements CLI
 
-> The missing CLI to preview or export beautiful, interactive API docs, based on OpenAPI and Markdown with [Stoplight Elements](https://github.com/stoplightio/elements)
+> The missing CLI for beautiful, interactive API docs powered by with [Stoplight Elements](https://github.com/stoplightio/elements)
 
 ## Installation
 

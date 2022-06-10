@@ -1,7 +1,7 @@
 {
   "name": "@skriptfabrik/elements-cli",
   "version": "0.0.0-dev",
-  "description": "The missing CLI to preview or export beautiful, interactive API docs, based on OpenAPI and Markdown with Stoplight Elements",
+  "description": "The missing CLI for beautiful, interactive API docs powered by with Stoplight Elements",
   "keywords": [
     "stoplight",
     "elements",
