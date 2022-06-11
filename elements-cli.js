@@ -285,7 +285,7 @@ app.get(
 
 // Serve static files from working directory
 
-app.use(sanitize(`/${argv['base-path']}`), express.static(argv['working-dir']));
+app.use(sanitize(`/${argv['base-path']}`), express.static(argv['working-dir'], {index: false}));
 
 // Handle CORS proxy requests
 
