@@ -265,9 +265,9 @@ app.set('views', path.join(__dirname, 'views'));
 // Serve assets from node_modules
 
 const assets = {
-  'livereload.js': 'node_modules/livereload-js/dist/livereload.min.js',
-  'styles.min.css': 'node_modules/@stoplight/elements/styles.min.css',
-  'web-components.min.js': 'node_modules/@stoplight/elements/web-components.min.js',
+  'livereload.js': require.resolve('livereload-js/dist/livereload.min.js'),
+  'styles.min.css': require.resolve('@stoplight/elements/styles.min.css'),
+  'web-components.min.js': require.resolve('@stoplight/elements/web-components.min.js'),
 };
 
 app.get(
@@ -277,7 +277,7 @@ app.get(
   (req, res) => {
     const url = new URL(req.url, `http://${req.headers.host}`);
 
-    send(req, path.join(__dirname, assets[path.basename(url.pathname)])).pipe(
+    send(req, assets[path.basename(url.pathname)]).pipe(
       res
     );
   }
