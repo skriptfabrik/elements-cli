@@ -338,7 +338,7 @@ app.get(
 
 // Listen for HTTP connections
 
-const server = app.listen(argv.port, argv.hostname, () =>
+const server = app.listen(argv.port, process.env.LISTEN_ADDRESS || argv.hostname, () =>
   console.error(
     `Elements server listening on http://${argv.hostname}:${argv.port}${baseHref}`
   )

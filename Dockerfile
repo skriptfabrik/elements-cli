@@ -4,7 +4,8 @@ LABEL maintainer="Daniel Schröder <daniel.schroeder@skriptfabrik.com>"
 
 ARG ELEMENTS_CLI_VERSION=latest
 
-ENV HOSTNAME=0.0.0.0
+ENV LISTEN_ADDRESS=0.0.0.0
+ENV HOSTNAME=localhost
 ENV NODE_ENV=production
 
 COPY . /opt/elements-cli-${ELEMENTS_CLI_VERSION}
