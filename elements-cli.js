@@ -18,13 +18,13 @@ const { URL } = require('url');
 // Argument defaults
 
 const argd = {
-  'base-path': process.env.BASE_PATH || '/',
-  hostname: process.env.HOSTNAME || 'localhost',
-  layout: process.env.LAYOUT || 'sidebar',
-  port: parseInt(process.env.PORT || '8000'),
-  router: process.env.ROUTER || 'history',
-  style: process.env.STYLE || 'display: block; height: 100vh',
-  title: process.env.TITLE || 'My API Docs',
+  'base-path': process.env.ELEMENTS_BASE_PATH || '/',
+  hostname: process.env.ELEMENTS_HOSTNAME || 'localhost',
+  layout: process.env.ELEMENTS_LAYOUT || 'sidebar',
+  port: parseInt(process.env.ELEMENTS_PORT || '8000'),
+  router: process.env.ELEMENTS_ROUTER || 'history',
+  style: process.env.ELEMENTS_STYLE || 'display: block; height: 100vh',
+  title: process.env.ELEMENTS_TITLE || 'My API Docs',
   'working-dir': process.cwd(),
 };
 
