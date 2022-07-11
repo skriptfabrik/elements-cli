@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@stoplight/elements": "7.5.19",
+    "@stoplight/elements": "7.6.0",
     "chalk": "^4.0.0",
     "chokidar": "^3.5.3",
     "cors-anywhere": "~0.4.4",
@@ -32,7 +32,7 @@
     "livereload-js": "3.4.0",
     "minimist": "^1.2.6",
     "send": "~0.18.0",
-    "ws": "^8.7.0"
+    "ws": "^8.8.0"
   },
   "bin": {
     "elements": "./elements-cli.js"
