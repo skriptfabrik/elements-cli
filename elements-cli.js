@@ -21,6 +21,7 @@ const argd = {
   'base-path': process.env.ELEMENTS_BASE_PATH || process.env.BASE_PATH  || '/',
   hostname: process.env.ELEMENTS_HOSTNAME || 'localhost',
   layout: process.env.ELEMENTS_LAYOUT || process.env.LAYOUT || 'sidebar',
+  'listen-address': process.env.ELEMENTS_LISTEN_ADDRESS || '127.0.0.1',
   port: parseInt(process.env.ELEMENTS_PORT || '8000'),
   router: process.env.ELEMENTS_ROUTER || process.env.ROUTER || 'history',
   style: process.env.ELEMENTS_STYLE || process.env.STYLE || 'flex: 1 0 0; overflow: hidden;',
@@ -92,11 +93,12 @@ if (argv.help || argv._.length < 2 || !['export', 'preview'].includes(argv._[0])
           `  ${chalk.green('-c  --with-cors-proxy')}      Enable CORS proxy capabilities`,
           `  ${chalk.green('-f, --filter-internal')}      Filter out any content which has been marked as internal with x-internal`,
           `  ${chalk.green('-h, --help')}                 Display this help message`,
-          `  ${chalk.green('    --hostname=HOSTNAME')}    Server hostname ${chalk.yellow('[default: "' + argd.hostname + '"]')}`,
+          `  ${chalk.green('    --hostname=HOSTNAME')}    Reported url hostname ${chalk.yellow('[default: "' + argd.hostname + '"]')}`,
           `  ${chalk.green('    --layout=LAYOUT')}        Layout for Elements: sidebar, stacked ${chalk.yellow('[default: "' + argd.layout + '"]')}`,
           `  ${chalk.green('    --logo=LOGO')}            URL of an image that will show as a small square logo next to the title`,
           `  ${chalk.green('-n  --no-try-it')}            Hide the "Try It" panel (the interactive API console)`,
           `  ${chalk.green('-p, --poll')}                 Use polling instead of file system events`,
+          `  ${chalk.green('    --listen-address=ADDR')}  Server listen address ${chalk.yellow('[default: ' + argd['listen-address'] + ']')}`,
           `  ${chalk.green('    --port=PORT')}            Server port ${chalk.yellow('[default: ' + argd.port + ']')}`,
           `  ${chalk.green('    --router=ROUTER')}        Determines how navigation should work: history, hash, memory, static ${chalk.yellow('[default: "' + argd.router + '"]')}`,
           `  ${chalk.green('    --style=STYLE')}          Additional style for Elements ${chalk.yellow('[default: "' + argd.style + '"]')}`,
@@ -338,10 +340,15 @@ app.get(
 
 // Listen for HTTP connections
 
-const server = app.listen(argv.port, argv.hostname, () =>
+const server = app.listen(argv.port, argv['listen-address'], () =>
   console.error(
-    `Elements server listening on http://${argv.hostname}:${argv.port}${baseHref}`
+    `Elements server listening on ${argv['listen-address']}:${argv.port}`
   )
+  if (argv.hostname) {
+    console.error(
+      `Visit http://${argv.hostname}:${argv.port}${baseHref}`
+    )
+  }
 );
 
 // Watch files in working directory and launch web socket server
