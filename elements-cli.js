@@ -297,8 +297,11 @@ if (argv['with-cors-proxy'] && !argv['no-try-it']) {
   });
   
   app.all(sanitize(`/${argv['base-path']}/_/*`), (req, res) => {
-    req.url = `/${req.params['0']}`;
-  
+    const pos = req.originalUrl.indexOf('?');
+    const queryString = pos === -1 ? '' : req.originalUrl.substring(pos);
+
+    req.url = `/${req.params['0']}${queryString}`;
+
     proxy.emit('request', req, res);
   });
 }
