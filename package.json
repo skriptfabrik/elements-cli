@@ -21,18 +21,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@stoplight/elements": "7.6.0",
+    "@stoplight/elements": "7.6.5",
     "chalk": "^4.0.0",
     "chokidar": "^3.5.3",
     "cors-anywhere": "~0.4.4",
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
     "handlebars": "^4.7.7",
-    "http-graceful-shutdown": "^3.1.7",
-    "livereload-js": "3.4.0",
+    "http-graceful-shutdown": "^3.1.8",
+    "livereload-js": "3.4.1",
     "minimist": "^1.2.6",
     "send": "~0.18.0",
-    "ws": "^8.8.0"
+    "ws": "^8.8.1"
   },
   "bin": {
     "elements": "./elements-cli.js"
