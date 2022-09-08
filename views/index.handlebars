@@ -9,7 +9,6 @@
   </head>
   <body style="display: flex; flex-direction: column; height: 100vh;">
     <elements-api
-      apiDescriptionUrl="{{elements.apiDescriptionUrl}}"
       basePath="{{elements.basePath}}"
       hideInternal="{{elements.hideInternal}}"
       hideTryIt="{{elements.hideTryIt}}"
@@ -20,6 +19,20 @@
       style="{{elements.style}}"
     ></elements-api>
     <script async defer src="{{elements-js}}"></script>
+    <script>
+      (async () => {
+        const [docs] = document.getElementsByTagName('elements-api')
+        try {
+          let text = await fetch('{{elements.apiDescriptionUrl}}').then(res => res.text())
+          {{#each variables}}
+          text = text.replaceAll('{{../delimiters.open}}{{@key}}{{../delimiters.close}}', '{{this}}')
+          {{/each}}
+          docs.apiDescriptionDocument = text
+        } catch(err) {
+          docs.apiDescriptionUrl = '{{elements.apiDescriptionUrl}}'
+        }
+      })();
+    </script>
     {{#if livereload-js}}
     <script async defer src="{{livereload-js}}?snipver=1"></script>
     {{/if}}

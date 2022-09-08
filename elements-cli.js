@@ -12,19 +12,20 @@ const minimist = require('minimist');
 const path = require('path');
 const pkg = require('./package.json');
 const send = require('send');
-const { Server }= require('ws');
+const { Server } = require('ws');
 const { URL } = require('url');
 
 // Argument defaults
 
 const argd = {
-  'base-path': process.env.ELEMENTS_BASE_PATH || process.env.BASE_PATH  || '/',
+  'base-path': process.env.ELEMENTS_BASE_PATH || process.env.BASE_PATH || '/',
   hostname: process.env.ELEMENTS_HOSTNAME || 'localhost',
   layout: process.env.ELEMENTS_LAYOUT || process.env.LAYOUT || 'sidebar',
   port: parseInt(process.env.ELEMENTS_PORT || '8000'),
   router: process.env.ELEMENTS_ROUTER || process.env.ROUTER || 'history',
   style: process.env.ELEMENTS_STYLE || process.env.STYLE || 'flex: 1 0 0; overflow: hidden;',
-  title: process.env.ELEMENTS_TITLE || process.env.TITLE  || 'My API Docs',
+  title: process.env.ELEMENTS_TITLE || process.env.TITLE || 'My API Docs',
+  variable: (process.env.ELEMENTS_VARIABLE || process.env.VARIABLE || '').split('\n').map(variable => variable.trim()),
   'working-dir': process.cwd(),
 };
 
@@ -54,87 +55,89 @@ if (argv.version) {
 // Display help message
 
 if (argv.help || argv._.length < 2 || !['export', 'preview'].includes(argv._[0])) {
-    if (argv._[0] === 'export') {
-      console.error(
-        `Elements CLI\n\n${chalk.yellow('Usage:')}\n%s\n\n${chalk.yellow('Arguments:')}\n%s\n\n${chalk.yellow('Options:')}\n%s\n\n${chalk.yellow('Examples:')}\n%s`,
-        `  ${path.basename(process.argv[1])} export [options] <openapi_json>`,
-        `  ${chalk.green('openapi_json')}  The path or URL of the OpenAPI JSON file`,
-        [
-          `  ${chalk.green('    --base-path=BASE_PATH')}    Use the given base path ${chalk.yellow('[default: "' + argd['base-path'] + '"]')}`,
-          `  ${chalk.green('    --cors-proxy=CORS_PROXY')}  Provide CORS proxy`,
-          `  ${chalk.green('-f, --filter-internal')}        Filter out any content which has been marked as internal with x-internal`,
-          `  ${chalk.green('-h, --help')}                   Display this help message`,
-          `  ${chalk.green('    --layout=LAYOUT')}          Layout for Elements: sidebar, stacked ${chalk.yellow('[default: "' + argd.layout + '"]')}`,
-          `  ${chalk.green('    --logo=LOGO')}              URL of an image that will show as a small square logo next to the title`,
-          `  ${chalk.green('-n  --no-try-it')}              Hide the "Try It" panel (the interactive API console)`,
-          `  ${chalk.green('    --router=ROUTER')}          Determines how navigation should work: history, hash, memory, static ${chalk.yellow('[default: "' + argd.router + '"]')}`,
-          `  ${chalk.green('    --style=STYLE')}            Additional style for Elements ${chalk.yellow('[default: "' + argd.style + '"]')}`,
-          `  ${chalk.green('    --title=TITLE')}            API docs title ${chalk.yellow('[default: "' + argd.title + '"]')}`,
-          `  ${chalk.green('-v, --version')}                Print version number`,
-        ].join('\n'),
-        [
-          `  Export rendered API docs based on local ${chalk.magenta('openapi.json')} path as ${chalk.magenta('index.html')}:`,
-          ``,
-          `    ${chalk.green(path.basename(process.argv[1]) + ' export openapi.json > index.html')}`,
-          ``,
-          `  Export rendered Swagger Petstore docs based on remote ${chalk.magenta('https://petstore.swagger.io/v2/swagger.json')} URL as ${chalk.magenta('index.html')}:`,
-          ``,
-          `    ${chalk.green(path.basename(process.argv[1]) + ' export https://petstore.swagger.io/v2/swagger.json > index.html')}`,
-        ].join('\n'),
-      );
-    } else if(argv._[0] === 'preview') {
-      console.error(
-        `Elements CLI\n\n${chalk.yellow('Usage:')}\n%s\n\n${chalk.yellow('Arguments:')}\n%s\n\n${chalk.yellow('Options:')}\n%s\n\n${chalk.yellow('Examples:')}\n%s`,
-        `  ${path.basename(process.argv[1])} preview [options] <openapi_json>`,
-        `  ${chalk.green('openapi_json')}  The path or URL of the OpenAPI JSON file`,
-        [
-          `  ${chalk.green('    --base-path=BASE_PATH')}  Use the given base path ${chalk.yellow('[default: "' + argd['base-path'] + '"]')}`,
-          `  ${chalk.green('-c  --with-cors-proxy')}      Enable CORS proxy capabilities`,
-          `  ${chalk.green('-f, --filter-internal')}      Filter out any content which has been marked as internal with x-internal`,
-          `  ${chalk.green('-h, --help')}                 Display this help message`,
-          `  ${chalk.green('    --hostname=HOSTNAME')}    Server hostname ${chalk.yellow('[default: "' + argd.hostname + '"]')}`,
-          `  ${chalk.green('    --layout=LAYOUT')}        Layout for Elements: sidebar, stacked ${chalk.yellow('[default: "' + argd.layout + '"]')}`,
-          `  ${chalk.green('    --logo=LOGO')}            URL of an image that will show as a small square logo next to the title`,
-          `  ${chalk.green('-n  --no-try-it')}            Hide the "Try It" panel (the interactive API console)`,
-          `  ${chalk.green('-p, --poll')}                 Use polling instead of file system events`,
-          `  ${chalk.green('    --port=PORT')}            Server port ${chalk.yellow('[default: ' + argd.port + ']')}`,
-          `  ${chalk.green('    --router=ROUTER')}        Determines how navigation should work: history, hash, memory, static ${chalk.yellow('[default: "' + argd.router + '"]')}`,
-          `  ${chalk.green('    --style=STYLE')}          Additional style for Elements ${chalk.yellow('[default: "' + argd.style + '"]')}`,
-          `  ${chalk.green('    --title=TITLE')}          API docs title ${chalk.yellow('[default: "' + argd.title + '"]')}`,
-          `  ${chalk.green('-v, --version')}              Print version number`,
-          `  ${chalk.green('-w  --watch')}                Watch for changes and reload (only for local files)`,
-          `  ${chalk.green('    --working-dir=PWD')}      Use the given directory as working directory`,
-        ].join('\n'),
-        [
-          `  Preview rendered API docs based on local ${chalk.magenta('openapi.json')} path:`,
-          ``,
-          `    ${chalk.green(path.basename(process.argv[1]) + ' preview openapi.json')}`,
-          ``,
-          `  Preview rendered Swagger Petstore docs based on remote ${chalk.magenta('https://petstore.swagger.io/v2/swagger.json')} URL:`,
-          ``,
-          `    ${chalk.green(path.basename(process.argv[1]) + ' preview https://petstore.swagger.io/v2/swagger.json')}`,
-          '',
-          `  Preview local API docs, enable CORS proxy capabilities and watch/reload on data changes:`,
-          ``,
-          `    ${chalk.green(path.basename(process.argv[1]) + ' preview -cw openapi.json')}`,
-        ].join('\n'),
-      );
-    } else {
-      console.error(
-        `Elements CLI\n\n${chalk.yellow('Usage:')}\n%s\n\n${chalk.yellow('Options:')}\n%s\n\n${chalk.yellow('Commands:')}\n%s`,
-        `  ${path.basename(process.argv[1])} command [options] [arguments]`,
-        [
-          `  ${chalk.green('-h, --help')}     Display this help message`,
-          `  ${chalk.green('-v, --version')}  Print version number`,
-        ].join('\n'),
-        [
-          `  ${chalk.green('export')}   Export rendered API docs`,
-          `  ${chalk.green('preview')}  Preview rendered API docs`,
-        ].join('\n'),
-      );
-    }
+  if (argv._[0] === 'export') {
+    console.error(
+      `Elements CLI\n\n${chalk.yellow('Usage:')}\n%s\n\n${chalk.yellow('Arguments:')}\n%s\n\n${chalk.yellow('Options:')}\n%s\n\n${chalk.yellow('Examples:')}\n%s`,
+      `  ${path.basename(process.argv[1])} export [options] <openapi_json>`,
+      `  ${chalk.green('openapi_json')}  The path or URL of the OpenAPI JSON file`,
+      [
+        `  ${chalk.green('    --base-path=BASE_PATH')}    Use the given base path ${chalk.yellow('[default: "' + argd['base-path'] + '"]')}`,
+        `  ${chalk.green('    --cors-proxy=CORS_PROXY')}  Provide CORS proxy`,
+        `  ${chalk.green('-f, --filter-internal')}        Filter out any content which has been marked as internal with x-internal`,
+        `  ${chalk.green('-h, --help')}                   Display this help message`,
+        `  ${chalk.green('    --layout=LAYOUT')}          Layout for Elements: sidebar, stacked ${chalk.yellow('[default: "' + argd.layout + '"]')}`,
+        `  ${chalk.green('    --logo=LOGO')}              URL of an image that will show as a small square logo next to the title`,
+        `  ${chalk.green('-n  --no-try-it')}              Hide the "Try It" panel (the interactive API console)`,
+        `  ${chalk.green('    --router=ROUTER')}          Determines how navigation should work: history, hash, memory, static ${chalk.yellow('[default: "' + argd.router + '"]')}`,
+        `  ${chalk.green('    --style=STYLE')}            Additional style for Elements ${chalk.yellow('[default: "' + argd.style + '"]')}`,
+        `  ${chalk.green('    --title=TITLE')}            API docs title ${chalk.yellow('[default: "' + argd.title + '"]')}`,
+        `  ${chalk.green('    --variable=VARIABLE')}      Variable to be replaced in the OpenAPI document`,
+        `  ${chalk.green('-v, --version')}                Print version number`,
+      ].join('\n'),
+      [
+        `  Export rendered API docs based on local ${chalk.magenta('openapi.json')} path as ${chalk.magenta('index.html')}:`,
+        ``,
+        `    ${chalk.green(path.basename(process.argv[1]) + ' export openapi.json > index.html')}`,
+        ``,
+        `  Export rendered Swagger Petstore docs based on remote ${chalk.magenta('https://petstore.swagger.io/v2/swagger.json')} URL as ${chalk.magenta('index.html')}:`,
+        ``,
+        `    ${chalk.green(path.basename(process.argv[1]) + ' export https://petstore.swagger.io/v2/swagger.json > index.html')}`,
+      ].join('\n'),
+    );
+  } else if (argv._[0] === 'preview') {
+    console.error(
+      `Elements CLI\n\n${chalk.yellow('Usage:')}\n%s\n\n${chalk.yellow('Arguments:')}\n%s\n\n${chalk.yellow('Options:')}\n%s\n\n${chalk.yellow('Examples:')}\n%s`,
+      `  ${path.basename(process.argv[1])} preview [options] <openapi_json>`,
+      `  ${chalk.green('openapi_json')}  The path or URL of the OpenAPI JSON file`,
+      [
+        `  ${chalk.green('    --base-path=BASE_PATH')}  Use the given base path ${chalk.yellow('[default: "' + argd['base-path'] + '"]')}`,
+        `  ${chalk.green('-c  --with-cors-proxy')}      Enable CORS proxy capabilities`,
+        `  ${chalk.green('-f, --filter-internal')}      Filter out any content which has been marked as internal with x-internal`,
+        `  ${chalk.green('-h, --help')}                 Display this help message`,
+        `  ${chalk.green('    --hostname=HOSTNAME')}    Server hostname ${chalk.yellow('[default: "' + argd.hostname + '"]')}`,
+        `  ${chalk.green('    --layout=LAYOUT')}        Layout for Elements: sidebar, stacked ${chalk.yellow('[default: "' + argd.layout + '"]')}`,
+        `  ${chalk.green('    --logo=LOGO')}            URL of an image that will show as a small square logo next to the title`,
+        `  ${chalk.green('-n  --no-try-it')}            Hide the "Try It" panel (the interactive API console)`,
+        `  ${chalk.green('-p, --poll')}                 Use polling instead of file system events`,
+        `  ${chalk.green('    --port=PORT')}            Server port ${chalk.yellow('[default: ' + argd.port + ']')}`,
+        `  ${chalk.green('    --router=ROUTER')}        Determines how navigation should work: history, hash, memory, static ${chalk.yellow('[default: "' + argd.router + '"]')}`,
+        `  ${chalk.green('    --style=STYLE')}          Additional style for Elements ${chalk.yellow('[default: "' + argd.style + '"]')}`,
+        `  ${chalk.green('    --title=TITLE')}          API docs title ${chalk.yellow('[default: "' + argd.title + '"]')}`,
+        `  ${chalk.green('    --variable=VARIABLE')}    Variable to be replaced in the OpenAPI document`,
+        `  ${chalk.green('-v, --version')}              Print version number`,
+        `  ${chalk.green('-w  --watch')}                Watch for changes and reload (only for local files)`,
+        `  ${chalk.green('    --working-dir=PWD')}      Use the given directory as working directory`,
+      ].join('\n'),
+      [
+        `  Preview rendered API docs based on local ${chalk.magenta('openapi.json')} path:`,
+        ``,
+        `    ${chalk.green(path.basename(process.argv[1]) + ' preview openapi.json')}`,
+        ``,
+        `  Preview rendered Swagger Petstore docs based on remote ${chalk.magenta('https://petstore.swagger.io/v2/swagger.json')} URL:`,
+        ``,
+        `    ${chalk.green(path.basename(process.argv[1]) + ' preview https://petstore.swagger.io/v2/swagger.json')}`,
+        '',
+        `  Preview local API docs, enable CORS proxy capabilities and watch/reload on data changes:`,
+        ``,
+        `    ${chalk.green(path.basename(process.argv[1]) + ' preview -cw openapi.json')}`,
+      ].join('\n'),
+    );
+  } else {
+    console.error(
+      `Elements CLI\n\n${chalk.yellow('Usage:')}\n%s\n\n${chalk.yellow('Options:')}\n%s\n\n${chalk.yellow('Commands:')}\n%s`,
+      `  ${path.basename(process.argv[1])} command [options] [arguments]`,
+      [
+        `  ${chalk.green('-h, --help')}     Display this help message`,
+        `  ${chalk.green('-v, --version')}  Print version number`,
+      ].join('\n'),
+      [
+        `  ${chalk.green('export')}   Export rendered API docs`,
+        `  ${chalk.green('preview')}  Preview rendered API docs`,
+      ].join('\n'),
+    );
+  }
 
-    process.exit(argv.help ? 0 : 1);
+  process.exit(argv.help ? 0 : 1);
 }
 
 // Watching remote files is not supported
@@ -171,18 +174,18 @@ function upgrade(server) {
 
       if (request.command === 'hello') {
         const data = JSON.stringify({
-            command: 'hello',
-            protocols: [
-              'http://livereload.com/protocols/official-7',
-              'http://livereload.com/protocols/official-8',
-              'http://livereload.com/protocols/official-9',
-              'http://livereload.com/protocols/2.x-origin-version-negotiation',
-              'http://livereload.com/protocols/2.x-remote-control',
-            ],
-            serverName: 'elements-server',
-          });
+          command: 'hello',
+          protocols: [
+            'http://livereload.com/protocols/official-7',
+            'http://livereload.com/protocols/official-8',
+            'http://livereload.com/protocols/official-9',
+            'http://livereload.com/protocols/2.x-origin-version-negotiation',
+            'http://livereload.com/protocols/2.x-remote-control',
+          ],
+          serverName: 'elements-server',
+        });
 
-          socket.send(data);
+        socket.send(data);
       }
     });
   });
@@ -216,6 +219,15 @@ function watch(filePath, server) {
 
 const baseHref = sanitize(`/${argv['base-path']}`, '/');
 
+// Define delimiters and variables
+
+const delimiters = { open: '{{', close: '}}' },
+  variables = [argv.variable].flat().filter((variable) => !!variable).reduce((variables, variable) => {
+    const [name, value] = variable.split('=');
+    variables[name] = value;
+    return variables;
+  }, {});
+
 // Export rendered API docs
 
 if (argv._[0] === 'export') {
@@ -231,6 +243,7 @@ if (argv._[0] === 'export') {
 
   console.log(template({
     baseHref,
+    delimiters,
     elements: {
       apiDescriptionUrl: argv._[1],
       basePath: baseHref,
@@ -247,6 +260,7 @@ if (argv._[0] === 'export') {
     layout: false,
     livereload: false,
     title: argv.title,
+    variables,
   }));
 
   process.exit(0);
@@ -285,7 +299,7 @@ app.get(
 
 // Serve static files from working directory
 
-app.use(sanitize(`/${argv['base-path']}`), express.static(argv['working-dir'], {index: false}));
+app.use(sanitize(`/${argv['base-path']}`), express.static(argv['working-dir'], { index: false }));
 
 // Handle CORS proxy requests
 
@@ -295,7 +309,7 @@ if (argv['with-cors-proxy'] && !argv['no-try-it']) {
     requireHeaders: [], // Do not require any headers
     removeHeaders: [] // Do not remove any headers
   });
-  
+
   app.all(sanitize(`/${argv['base-path']}/_/*`), (req, res) => {
     const pos = req.originalUrl.indexOf('?');
     const queryString = pos === -1 ? '' : req.originalUrl.substring(pos);
@@ -319,6 +333,7 @@ app.get(
 
     res.render('index', {
       baseHref,
+      delimiters,
       elements: {
         apiDescriptionUrl: argv._[1],
         basePath: baseHref,
@@ -335,6 +350,7 @@ app.get(
       layout: false,
       'livereload-js': argv.watch ? 'livereload.js' : undefined,
       title: argv.title,
+      variables,
     });
   }
 );
