@@ -20,18 +20,20 @@
     ></elements-api>
     <script async defer src="{{elements-js}}"></script>
     <script>
-      (async () => {
+      document.addEventListener('DOMContentLoaded', async () => {
         const [docs] = document.getElementsByTagName('elements-api')
         try {
           let text = await fetch('{{elements.apiDescriptionUrl}}').then(res => res.text())
           {{#each variables}}
           text = text.replaceAll('{{../delimiters.open}}{{@key}}{{../delimiters.close}}', '{{this}}')
           {{/each}}
+          console.info('Successfully fetched API docs and replaced variables')
           docs.apiDescriptionDocument = text
         } catch(err) {
+          console.info('Failed to fetch API docs, trying to render it from URL')
           docs.apiDescriptionUrl = '{{elements.apiDescriptionUrl}}'
         }
-      })();
+      })
     </script>
     {{#if livereload-js}}
     <script async defer src="{{livereload-js}}?snipver=1"></script>
