@@ -21,6 +21,7 @@ const argd = {
   'base-path': process.env.ELEMENTS_BASE_PATH || process.env.BASE_PATH || '/',
   hostname: process.env.ELEMENTS_HOSTNAME || 'localhost',
   layout: process.env.ELEMENTS_LAYOUT || process.env.LAYOUT || 'sidebar',
+  logo: process.env.ELEMENTS_LOGO || process.env.LOGO,
   port: parseInt(process.env.ELEMENTS_PORT || '8000'),
   router: process.env.ELEMENTS_ROUTER || process.env.ROUTER || 'history',
   style: process.env.ELEMENTS_STYLE || process.env.STYLE || 'flex: 1 0 0; overflow: hidden;',
