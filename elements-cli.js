@@ -346,11 +346,9 @@ const server = app.listen(argv.port, argv.hostname, () =>
   console.error(
     `Elements server listening on ${argv.hostname}:${argv.port}`
   )
-  if (argv.hostname) {
-    console.error(
-      `Visit http://${argv.hostname}:${argv.port}${baseHref}`
-    )
-  }
+  console.error(
+    `Visit http://${argv['virtual-host']}:${argv['virtual-port']}${baseHref}`
+  )
 );
 
 // Watch files in working directory and launch web socket server
