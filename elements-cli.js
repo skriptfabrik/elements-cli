@@ -344,7 +344,7 @@ app.get(
 
 const server = app.listen(argv.port, argv.hostname, () =>
   console.error(
-    `Elements server listening on ${argv['listen-address']}:${argv.port}`
+    `Elements server listening on ${argv.hostname}:${argv.port}`
   )
   if (argv.hostname) {
     console.error(
