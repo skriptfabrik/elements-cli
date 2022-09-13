@@ -94,7 +94,7 @@ if (argv.help || argv._.length < 2 || !['export', 'preview'].includes(argv._[0])
           `  ${chalk.green('-c  --with-cors-proxy')}      Enable CORS proxy capabilities`,
           `  ${chalk.green('-f, --filter-internal')}      Filter out any content which has been marked as internal with x-internal`,
           `  ${chalk.green('-h, --help')}                 Display this help message`,
-          `  ${chalk.green('    --hostname=HOSTNAME')}    Reported url hostname ${chalk.yellow('[default: "' + argd.hostname + '"]')}`,
+          `  ${chalk.green('    --hostname=HOSTNAME')}    Server hostname ${chalk.yellow('[default: "' + argd.hostname + '"]')}`,
           `  ${chalk.green('    --layout=LAYOUT')}        Layout for Elements: sidebar, stacked ${chalk.yellow('[default: "' + argd.layout + '"]')}`,
           `  ${chalk.green('    --logo=LOGO')}            URL of an image that will show as a small square logo next to the title`,
           `  ${chalk.green('-n  --no-try-it')}            Hide the "Try It" panel (the interactive API console)`,
