@@ -341,7 +341,7 @@ app.get(
 
 // Listen for HTTP connections
 
-const server = app.listen(argv.port, argv['listen-address'], () =>
+const server = app.listen(argv.port, argv.hostname, () =>
   console.error(
     `Elements server listening on ${argv['listen-address']}:${argv.port}`
   )
