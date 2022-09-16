@@ -27,6 +27,8 @@ const argd = {
   style: process.env.ELEMENTS_STYLE || process.env.STYLE || 'flex: 1 0 0; overflow: hidden;',
   title: process.env.ELEMENTS_TITLE || process.env.TITLE || 'My API Docs',
   variable: (process.env.ELEMENTS_VARIABLE || process.env.VARIABLE || '').split('\n').map(variable => variable.trim()),
+  'virtual-host': process.env.ELEMENTS_VIRTUAL_HOST || 'localhost',
+  'virtual-port': process.env.ELEMENTS_VIRTUAL_PORT || '8000',
   'working-dir': process.cwd(),
 };
 
@@ -91,23 +93,25 @@ if (argv.help || argv._.length < 2 || !['export', 'preview'].includes(argv._[0])
       `  ${path.basename(process.argv[1])} preview [options] <openapi_json>`,
       `  ${chalk.green('openapi_json')}  The path or URL of the OpenAPI JSON file`,
       [
-        `  ${chalk.green('    --base-path=BASE_PATH')}  Use the given base path ${chalk.yellow('[default: "' + argd['base-path'] + '"]')}`,
-        `  ${chalk.green('-c  --with-cors-proxy')}      Enable CORS proxy capabilities`,
-        `  ${chalk.green('-f, --filter-internal')}      Filter out any content which has been marked as internal with x-internal`,
-        `  ${chalk.green('-h, --help')}                 Display this help message`,
-        `  ${chalk.green('    --hostname=HOSTNAME')}    Server hostname ${chalk.yellow('[default: "' + argd.hostname + '"]')}`,
-        `  ${chalk.green('    --layout=LAYOUT')}        Layout for Elements: sidebar, stacked ${chalk.yellow('[default: "' + argd.layout + '"]')}`,
-        `  ${chalk.green('    --logo=LOGO')}            URL of an image that will show as a small square logo next to the title`,
-        `  ${chalk.green('-n  --no-try-it')}            Hide the "Try It" panel (the interactive API console)`,
-        `  ${chalk.green('-p, --poll')}                 Use polling instead of file system events`,
-        `  ${chalk.green('    --port=PORT')}            Server port ${chalk.yellow('[default: ' + argd.port + ']')}`,
-        `  ${chalk.green('    --router=ROUTER')}        Determines how navigation should work: history, hash, memory, static ${chalk.yellow('[default: "' + argd.router + '"]')}`,
-        `  ${chalk.green('    --style=STYLE')}          Additional style for Elements ${chalk.yellow('[default: "' + argd.style + '"]')}`,
-        `  ${chalk.green('    --title=TITLE')}          API docs title ${chalk.yellow('[default: "' + argd.title + '"]')}`,
-        `  ${chalk.green('    --variable=VARIABLE')}    Variable to be replaced in the OpenAPI document`,
-        `  ${chalk.green('-v, --version')}              Print version number`,
-        `  ${chalk.green('-w  --watch')}                Watch for changes and reload (only for local files)`,
-        `  ${chalk.green('    --working-dir=PWD')}      Use the given directory as working directory`,
+        `  ${chalk.green('    --base-path=BASE_PATH')}        Use the given base path ${chalk.yellow('[default: "' + argd['base-path'] + '"]')}`,
+        `  ${chalk.green('-c  --with-cors-proxy')}            Enable CORS proxy capabilities`,
+        `  ${chalk.green('-f, --filter-internal')}            Filter out any content which has been marked as internal with x-internal`,
+        `  ${chalk.green('-h, --help')}                       Display this help message`,
+        `  ${chalk.green('    --hostname=HOSTNAME')}          Server hostname ${chalk.yellow('[default: "' + argd.hostname + '"]')}`,
+        `  ${chalk.green('    --layout=LAYOUT')}              Layout for Elements: sidebar, stacked ${chalk.yellow('[default: "' + argd.layout + '"]')}`,
+        `  ${chalk.green('    --logo=LOGO')}                  URL of an image that will show as a small square logo next to the title`,
+        `  ${chalk.green('-n  --no-try-it')}                  Hide the "Try It" panel (the interactive API console)`,
+        `  ${chalk.green('-p, --poll')}                       Use polling instead of file system events`,
+        `  ${chalk.green('    --port=PORT')}                  Server port ${chalk.yellow('[default: ' + argd.port + ']')}`,
+        `  ${chalk.green('    --router=ROUTER')}              Determines how navigation should work: history, hash, memory, static ${chalk.yellow('[default: "' + argd.router + '"]')}`,
+        `  ${chalk.green('    --style=STYLE')}                Additional style for Elements ${chalk.yellow('[default: "' + argd.style + '"]')}`,
+        `  ${chalk.green('    --title=TITLE')}                API docs title ${chalk.yellow('[default: "' + argd.title + '"]')}`,
+        `  ${chalk.green('    --variable=VARIABLE')}          Variable to be replaced in the OpenAPI document`,
+        `  ${chalk.green('-v, --version')}                    Print version number`,
+        `  ${chalk.green('-w  --watch')}                      Watch for changes and reload (only for local files)`,
+        `  ${chalk.green('    --virtual-host=VIRTUAL_HOST')}  Reported hostname ${chalk.yellow('[default: ' + argd['virtual-host'] + ']')}`,
+        `  ${chalk.green('    --virtual-port=VIRTUAL_PORT')}  Reported port ${chalk.yellow('[default: ' + argd['virtual-port'] + ']')}`,
+        `  ${chalk.green('    --working-dir=PWD')}            Use the given directory as working directory`,
       ].join('\n'),
       [
         `  Preview rendered API docs based on local ${chalk.magenta('openapi.json')} path:`,
@@ -360,7 +364,10 @@ app.get(
 
 const server = app.listen(argv.port, argv.hostname, () =>
   console.error(
-    `Elements server listening on http://${argv.hostname}:${argv.port}${baseHref}`
+    `Elements server listening on ${argv.hostname}:${argv.port}`
+  )
+  console.error(
+    `Visit http://${argv['virtual-host']}:${argv['virtual-port']}${baseHref}`
   )
 );
 
