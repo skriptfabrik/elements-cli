@@ -9,18 +9,34 @@
   </head>
   <body style="display: flex; flex-direction: column; height: 100vh;">
     <elements-api
-      apiDescriptionUrl="{{elements.apiDescriptionUrl}}"
       basePath="{{elements.basePath}}"
       hideInternal="{{elements.hideInternal}}"
       hideTryIt="{{elements.hideTryIt}}"
       tryItCorsProxy="{{elements.tryItCorsProxy}}"
       layout="{{elements.layout}}"
+      logo="{{elements.logo}}"
       router="{{elements.router}}"
       style="{{elements.style}}"
     ></elements-api>
-    <script async defer src="{{elements-js}}"></script>
+    <script src="{{elements-js}}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        const [docs] = document.getElementsByTagName('elements-api')
+        try {
+          let text = await fetch('{{elements.apiDescriptionUrl}}').then(res => res.text())
+          {{#each variables}}
+          text = text.replaceAll('{{../delimiters.open}}{{@key}}{{../delimiters.close}}', '{{this}}')
+          {{/each}}
+          console.info('Successfully fetched API docs and replaced variables')
+          docs.apiDescriptionDocument = text
+        } catch(err) {
+          console.info('Failed to fetch API docs, trying to render it from URL')
+          docs.apiDescriptionUrl = '{{elements.apiDescriptionUrl}}'
+        }
+      })
+    </script>
     {{#if livereload-js}}
-    <script async defer src="{{livereload-js}}?snipver=1"></script>
+    <script src="{{livereload-js}}?snipver=1"></script>
     {{/if}}
   </body>
 </html>
