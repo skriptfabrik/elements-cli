@@ -51,18 +51,19 @@ Arguments:
   openapi_json  The path or URL of the OpenAPI JSON file
 
 Options:
-      --base-path=BASE_PATH    Use the given base path [default: "/"]
-      --cors-proxy=CORS_PROXY  Provide CORS proxy
-  -f, --filter-internal        Filter out any content which has been marked as internal with x-internal
-  -h, --help                   Display this help message
-      --layout=LAYOUT          Layout for Elements: sidebar, stacked [default: "sidebar"]
-      --logo=LOGO              URL of an image that will show as a small square logo next to the title
-  -n  --no-try-it              Hide the "Try It" panel (the interactive API console)
-      --router=ROUTER          Determines how navigation should work: history, hash, memory, static [default: "history"]
-      --style=STYLE            Additional style for Elements [default: "display: block; height: 100vh"]
-      --title=TITLE            API docs title [default: "My API Docs"]
-      --variable=VARIABLE      Variable to be replaced in the OpenAPI document
-  -v, --version                Print version number
+      --base-path=BASE_PATH                    Use the given base path [default: "/"]
+      --credentials-policy=CREDENTIALS_POLICY  Credentials policy for "Try It" feature: omit, include, same-origin [default: "omit"]
+      --cors-proxy=CORS_PROXY                  Provide CORS proxy
+  -f, --filter-internal                        Filter out any content which has been marked as internal with x-internal
+  -h, --help                                   Display this help message
+      --layout=LAYOUT                          Layout for Elements: sidebar, stacked [default: "sidebar"]
+      --logo=LOGO                              URL of an image that will show as a small square logo next to the title
+  -n  --no-try-it                              Hide the "Try It" panel (the interactive API console)
+      --router=ROUTER                          Determines how navigation should work: history, hash, memory, static [default: "history"]
+      --style=STYLE                            Additional style for Elements [default: "flex: 1 0 0; overflow: hidden;"]
+      --title=TITLE                            API docs title [default: "My API Docs"]
+      --variable=VARIABLE                      Variable to be replaced in the OpenAPI document
+  -v, --version                                Print version number
 
 Examples:
   Export rendered API docs based on local openapi.json path as index.html:
@@ -90,25 +91,26 @@ Arguments:
   openapi_json  The path or URL of the OpenAPI JSON file
 
 Options:
-      --base-path=BASE_PATH        Use the given base path [default: "/"]
-  -c  --with-cors-proxy            Enable CORS proxy capabilities
-  -f, --filter-internal            Filter out any content which has been marked as internal with x-internal
-  -h, --help                       Display this help message
-      --hostname=HOSTNAME          Server hostname [default: "localhost"]
-      --layout=LAYOUT              Layout for Elements: sidebar, stacked [default: "sidebar"]
-      --logo=LOGO                  URL of an image that will show as a small square logo next to the title
-  -n  --no-try-it                  Hide the "Try It" panel (the interactive API console)
-  -p, --poll                       Use polling instead of file system events
-      --port=PORT                  Server port [default: 8000]
-      --router=ROUTER              Determines how navigation should work: history, hash, memory, static [default: "history"]
-      --style=STYLE                Additional style for Elements [default: "display: block; height: 100vh"]
-      --title=TITLE                API docs title [default: "My API Docs"]
-      --variable=VARIABLE          Variable to be replaced in the OpenAPI document
-  -v, --version                    Print version number
-  -w  --watch                      Watch for changes and reload (only for local files)
-      --virtual-host=VIRTUAL_HOST  Reported hostname [default: localhost]
-      --virtual-port=VIRTUAL_PORT  Reported port [default: 8000]
-      --working-dir=PWD            Use the given directory as working directory
+      --base-path=BASE_PATH                    Use the given base path [default: "/"]
+      --credentials-policy=CREDENTIALS_POLICY  Credentials policy for "Try It" feature: omit, include, same-origin [default: "omit"]
+  -c  --with-cors-proxy                        Enable CORS proxy capabilities
+  -f, --filter-internal                        Filter out any content which has been marked as internal with x-internal
+  -h, --help                                   Display this help message
+      --hostname=HOSTNAME                      Server hostname [default: "localhost"]
+      --layout=LAYOUT                          Layout for Elements: sidebar, stacked [default: "sidebar"]
+      --logo=LOGO                              URL of an image that will show as a small square logo next to the title
+  -n  --no-try-it                              Hide the "Try It" panel (the interactive API console)
+  -p, --poll                                   Use polling instead of file system events
+      --port=PORT                              Server port [default: 8000]
+      --router=ROUTER                          Determines how navigation should work: history, hash, memory, static [default: "history"]
+      --style=STYLE                            Additional style for Elements [default: "flex: 1 0 0; overflow: hidden;"]
+      --title=TITLE                            API docs title [default: "My API Docs"]
+      --variable=VARIABLE                      Variable to be replaced in the OpenAPI document
+  -v, --version                                Print version number
+  -w  --watch                                  Watch for changes and reload (only for local files)
+      --virtual-host=VIRTUAL_HOST              Reported hostname [default: localhost]
+      --virtual-port=VIRTUAL_PORT              Reported port [default: 8000]
+      --working-dir=PWD                        Use the given directory as working directory
 
 Examples:
   Preview rendered API docs based on local openapi.json path:
