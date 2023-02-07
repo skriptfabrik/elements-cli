@@ -1,19 +1,29 @@
 #!/usr/bin/env node
 
-const chalk = require('chalk');
-const chokidar = require('chokidar');
-const { compile } = require('handlebars');
-const corsAnywhere = require('cors-anywhere');
-const express = require('express');
-const fs = require('fs');
-const gracefulShutdown = require('http-graceful-shutdown');
-const handlebars = require('express-handlebars');
-const minimist = require('minimist');
-const path = require('path');
-const pkg = require('./package.json');
-const send = require('send');
-const { Server } = require('ws');
-const { URL } = require('url');
+import chalk from 'chalk';
+import chokidar from 'chokidar';
+import corsAnywhere from 'cors-anywhere';
+import express from 'express';
+import { engine } from 'express-handlebars';
+import { readFile } from 'fs/promises';
+import handlebars from 'handlebars';
+import gracefulShutdown from 'http-graceful-shutdown';
+import minimist from 'minimist';
+import { createRequire } from 'module';
+import path from 'path';
+import send from 'send';
+import { WebSocketServer } from 'ws';
+import { fileURLToPath, URL } from 'url';
+
+// Compat
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url);
+
+// Package info
+
+const pkg = JSON.parse(await readFile(path.join(__dirname, 'package.json')));
 
 // Argument defaults
 
@@ -171,10 +181,10 @@ function sanitize(str, suffix = '') {
  * 
  * @param {http.Server} server The HTTP server instance
  * 
- * @returns {ws.Server}
+ * @returns {ws.WebSocketServer}
  */
 function upgrade(server) {
-  const wss = new Server({ server });
+  const wss = new WebSocketServer({ server });
 
   return wss.on('connection', (socket) => {
     socket.on('message', (message) => {
@@ -202,8 +212,8 @@ function upgrade(server) {
 /**
  * Create file system watcher and broatcast all file changes to every client
  * 
- * @param {sting}     filePath The file path to watch
- * @param {ws.Server} server   The web socket server instance
+ * @param {string}             filePath The file path to watch
+ * @param {ws.WebSocketServer} server   The web socket server instance
  * 
  * @returns {chokidar.FSWatcher}
  */
@@ -239,8 +249,8 @@ const delimiters = { open: '{{', close: '}}' },
 // Export rendered API docs
 
 if (argv._[0] === 'export') {
-  const input = fs.readFileSync(path.resolve(__dirname, 'views', 'index.handlebars')).toString('utf8');
-  const template = compile(input);
+  const input = (await readFile(path.resolve(__dirname, 'views', 'index.handlebars'))).toString('utf8');
+  const template = handlebars.compile(input);
   const version = pkg.dependencies['@stoplight/elements'];
 
   let tryItCorsProxy;
@@ -281,7 +291,7 @@ const app = express();
 
 // Enable Handlebars view engine
 
-app.engine('handlebars', handlebars.engine());
+app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -378,15 +388,22 @@ const server = app.listen(argv.port, argv.hostname, () => {
 
 // Watch files in working directory and launch web socket server
 
-if (argv.watch) {
-  watch(
+const watcher = argv.watch
+  ? watch(
     argv['working-dir'],
     upgrade(server).on('error', (err) => console.error(err))
   )
     .once('ready', () => console.error(`Watching ${path.resolve(argv['working-dir'])}`))
-    .on('error', (err) => console.error(err));
-}
+    .on('error', (err) => console.error(err))
+  : undefined;
 
 // Enable the graceful shutdown
 
-gracefulShutdown(server);
+gracefulShutdown(server, {
+  onShutdown: () => new Promise((resolve) => {
+    if (watcher) {
+      watcher.close();
+    }
+    resolve();
+  })
+});

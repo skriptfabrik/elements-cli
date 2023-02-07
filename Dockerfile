@@ -12,7 +12,7 @@ COPY . /opt/elements-cli-${ELEMENTS_CLI_VERSION}
 RUN set -eux; \
     npm --prefix /opt/elements-cli-${ELEMENTS_CLI_VERSION} install; \
     rm -Rf ~/.npm; \
-    ln -s /opt/elements-cli-${ELEMENTS_CLI_VERSION}/elements-cli.js /usr/local/bin/elements
+    ln -s /opt/elements-cli-${ELEMENTS_CLI_VERSION}/elements-cli.mjs /usr/local/bin/elements
 
 WORKDIR /data
 
