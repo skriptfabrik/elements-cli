@@ -1,6 +1,6 @@
 [![NPM Version](https://img.shields.io/npm/v/@skriptfabrik/elements-cli)](https://www.npmjs.com/package/@skriptfabrik/elements-cli)
 [![NPM Downloads](https://img.shields.io/npm/dt/@skriptfabrik/elements-cli)](https://www.npmjs.com/package/@skriptfabrik/elements-cli)
-[![Continuous Integration](https://img.shields.io/github/workflow/status/skriptfabrik/elements-cli/Continuous%20Integration)](https://github.com/skriptfabrik/elements-cli/actions/workflows/ci.yml)
+[![Continuous Integration](https://img.shields.io/github/actions/workflow/status/skriptfabrik/elements-cli/ci.yml)](https://github.com/skriptfabrik/elements-cli/actions/workflows/ci.yml)
 
 # Elements CLI
 
