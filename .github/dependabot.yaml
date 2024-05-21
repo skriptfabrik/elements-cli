@@ -9,31 +9,25 @@ registries:
     replaces-base: true
 
 updates:
-  - package-ecosystem: 'github-actions'
-    directory: '/'
-    reviewers:
-      - 'skriptfabrik/developers'
-    schedule:
-      interval: 'weekly'
-      time: '08:00'
-      timezone: 'Europe/Berlin'
-
-  - package-ecosystem: 'npm'
-    directory: '/'
-    reviewers:
-      - 'skriptfabrik/developers'
-    schedule:
-      interval: 'weekly'
-      time: '08:00'
-      timezone: 'Europe/Berlin'
-
   - package-ecosystem: 'docker'
     directory: '/'
     reviewers:
-      - 'skriptfabrik/developers'
+      - 'skriptfabrik/docker-maintainers'
     registries:
       - 'dockerhub'
     schedule:
       interval: 'weekly'
-      time: '08:00'
-      timezone: 'Europe/Berlin'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    reviewers:
+      - 'skriptfabrik/github-actions-maintainers'
+    schedule:
+      interval: 'weekly'
+
+  - package-ecosystem: 'npm'
+    directory: '/'
+    reviewers:
+      - 'skriptfabrik/npm-maintainers'
+    schedule:
+      interval: 'weekly'
