@@ -68,7 +68,7 @@ jobs:
 
       - name: Build and Push latest Docker image
         if: github.ref_name == 'main'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           build-args: |-
             BUILDKIT_INLINE_CACHE=${{ env.DOCKER_BUILDKIT_INLINE_CACHE }}
@@ -90,7 +90,7 @@ jobs:
 
       - name: Build and Push Docker image release version
         if: github.ref_type == 'tag'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           build-args: |-
             BUILDKIT_INLINE_CACHE=${{ env.DOCKER_BUILDKIT_INLINE_CACHE }}
