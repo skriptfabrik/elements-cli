@@ -23,7 +23,7 @@
   "dependencies": {
     "@stoplight/elements": "8.4.3",
     "chalk": "^5.2.0",
-    "chokidar": "^3.5.3",
+    "chokidar": "^4.0.0",
     "cors-anywhere": "~0.4.4",
     "express": "^4.19.2",
     "express-handlebars": "^8.0.1",
