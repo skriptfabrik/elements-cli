@@ -7,6 +7,9 @@
 # Microsoft IDEs - VSCode
 /.vscode
 
+# Devcontainer
+/.devcontainer
+
 # Dependencies
 node_modules
 

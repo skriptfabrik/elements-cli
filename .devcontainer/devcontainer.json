@@ -1,0 +1,29 @@
+{
+  "name": "n8n-nodes",
+  "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu-22.04",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22.11.0",
+      "nodeGypDependencies": true
+    },
+    "ghcr.io/devcontainers-contrib/features/markdownlint-cli:1": {
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers-contrib/features/yamllint:2": {
+      "version": "latest"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "christian-kohler.npm-intellisense",
+        "EditorConfig.EditorConfig",
+        "esbenp.prettier-vscode",
+        "GitHub.copilot",
+        "github.vscode-github-actions",
+        "GitHub.vscode-pull-request-github"
+      ]
+    }
+  },
+  "postCreateCommand": "npm install --no-audit --no-fund --no-update-notifier"
+}
