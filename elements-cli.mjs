@@ -348,7 +348,7 @@ if (argv['with-cors-proxy'] && !argv['no-try-it']) {
 // Render and serve index template
 
 app.get(
-    [sanitize(`/${argv['base-path']}`, '*'), sanitize(`/${argv['base-path']}`)],
+    [sanitize(`/${argv['base-path']}`, '*basePath'), sanitize(`/${argv['base-path']}`)],
     (req, res) => {
         let tryItCorsProxy;
 
