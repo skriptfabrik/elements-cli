@@ -335,13 +335,13 @@ if (argv['with-cors-proxy'] && !argv['no-try-it']) {
         removeHeaders: [], // Do not remove any headers
     });
 
-    app.all(sanitize(`/${argv['base-path']}/_/*`), (req, res) => {
-        const pos = req.originalUrl.indexOf('?');
-        const queryString = pos === -1 ? '' : req.originalUrl.substring(pos);
+    app.all(sanitize(`/${argv["base-path"]}/_/*basePath`), (req, res) => {
+        const pos = req.originalUrl.indexOf("?");
+        const queryString = pos === -1 ? "" : req.originalUrl.substring(pos);
 
-        req.url = `/${req.params['0']}${queryString}`;
+        req.url = `/${req.params["0"]}${queryString}`;
 
-        proxy.emit('request', req, res);
+        proxy.emit("request", req, res);
     });
 }
 
