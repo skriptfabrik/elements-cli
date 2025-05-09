@@ -1,0 +1,9 @@
+# GitHub Actions files
+/.github/               @skriptfabrik/github-actions-maintainers
+
+# Docker files
+Dockerfile              @skriptfabrik/docker-maintainers
+
+# NPM package files
+package.json            @skriptfabrik/npm-maintainers
+package-lock.yaml       @skriptfabrik/npm-maintainers
