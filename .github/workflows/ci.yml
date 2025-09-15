@@ -48,7 +48,7 @@ jobs:
           npm version from-git --no-git-tag-version
 
       - name: Publish package
-        uses: JS-DevTools/npm-publish@v3
+        uses: JS-DevTools/npm-publish@v4
         if: github.ref_type == 'tag'
         with:
           access: public
