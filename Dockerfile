@@ -1,4 +1,4 @@
-FROM node:24.10.0-alpine
+FROM node:25.0.0-alpine
 
 LABEL maintainer="Daniel Schröder <daniel.schroeder@skriptfabrik.com>"
 
