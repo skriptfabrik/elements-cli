@@ -11,6 +11,7 @@ COPY . /opt/elements-cli-${ELEMENTS_CLI_VERSION}
 
 RUN \
     --mount=type=cache,target=/root/.npm \
+    --mount=type=cache,target=/tmp/node-compile-cache \
     set -eux; \
     npm --prefix /opt/elements-cli-${ELEMENTS_CLI_VERSION} install; \
     ln -s /opt/elements-cli-${ELEMENTS_CLI_VERSION}/elements-cli.mjs /usr/local/bin/elements
