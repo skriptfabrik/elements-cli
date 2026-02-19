@@ -1,15 +1,15 @@
 {
   "name": "n8n-nodes",
-  "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu-22.04",
+  "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu-24.04",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
-      "version": "22.11.0",
+      "version": "24",
       "nodeGypDependencies": true
     },
-    "ghcr.io/devcontainers-contrib/features/markdownlint-cli:1": {
+    "ghcr.io/devcontainers-extra/features/markdownlint-cli:1": {
       "version": "latest"
     },
-    "ghcr.io/devcontainers-contrib/features/yamllint:2": {
+    "ghcr.io/devcontainers-extra/features/yamllint:2": {
       "version": "latest"
     }
   },
@@ -21,7 +21,8 @@
         "esbenp.prettier-vscode",
         "GitHub.copilot",
         "github.vscode-github-actions",
-        "GitHub.vscode-pull-request-github"
+        "github.vscode-pull-request-github",
+        "hverlin.mise-vscode"
       ]
     }
   },
