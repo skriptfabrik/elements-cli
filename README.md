@@ -2,7 +2,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/@skriptfabrik/elements-cli)](https://www.npmjs.com/package/@skriptfabrik/elements-cli)
 [![NPM Downloads](https://img.shields.io/npm/dt/@skriptfabrik/elements-cli)](https://www.npmjs.com/package/@skriptfabrik/elements-cli)
-[![Continuous Integration](https://img.shields.io/github/actions/workflow/status/skriptfabrik/elements-cli/ci.yml)](https://github.com/skriptfabrik/elements-cli/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/actions/workflow/status/skriptfabrik/elements-cli/release.yml)](https://github.com/skriptfabrik/elements-cli/actions/workflows/release.yml)
 
 > The missing CLI for beautiful, interactive API docs powered by with [Stoplight Elements](https://github.com/stoplightio/elements)
 
