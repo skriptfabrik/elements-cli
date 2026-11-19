@@ -6,4 +6,4 @@ Dockerfile              @skriptfabrik/docker-maintainers
 
 # NPM package files
 package.json            @skriptfabrik/npm-maintainers
-package-lock.yaml       @skriptfabrik/npm-maintainers
+package-lock.json       @skriptfabrik/npm-maintainers
