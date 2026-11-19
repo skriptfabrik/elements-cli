@@ -1,0 +1,19 @@
+{
+  "features": {
+    "ghcr.io/devcontainers-extra/features/markdownlint-cli:1": {
+      "version": "1.0.2",
+      "resolved": "ghcr.io/devcontainers-extra/features/markdownlint-cli@sha256:c6da80d68ba3130d32adc3476fb10aac7f3c5649b9303a192320a17c4c88a371",
+      "integrity": "sha256:c6da80d68ba3130d32adc3476fb10aac7f3c5649b9303a192320a17c4c88a371"
+    },
+    "ghcr.io/devcontainers-extra/features/yamllint:2": {
+      "version": "2.0.18",
+      "resolved": "ghcr.io/devcontainers-extra/features/yamllint@sha256:c3ed260f8e4f026d2ae93ae61581d9a8c28d64950a4e801ac33b968566e6c16e",
+      "integrity": "sha256:c3ed260f8e4f026d2ae93ae61581d9a8c28d64950a4e801ac33b968566e6c16e"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "1.7.1",
+      "resolved": "ghcr.io/devcontainers/features/node@sha256:8c0de46939b61958041700ee89e3493f3b2e4131a06dc46b4d9423427d06e5f6",
+      "integrity": "sha256:8c0de46939b61958041700ee89e3493f3b2e4131a06dc46b4d9423427d06e5f6"
+    }
+  }
+}
