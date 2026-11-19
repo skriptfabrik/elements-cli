@@ -23,6 +23,9 @@
       "password": "{{ secrets.DOCKERHUB_TOKEN }}"
     }
   ],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "matchManagers": ["dockerfile"],
@@ -39,6 +42,12 @@
       "addLabels": ["javascript"],
       "minimumReleaseAge": "1 day",
       "schedule": ["* * * * 1"]
+    },
+    {
+      "description": "Lock file maintenance runs early on Mondays without a release age",
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "minimumReleaseAge": null,
+      "schedule": ["* 0-3 * * 1"]
     },
     {
       "matchManagers": ["npm"],
