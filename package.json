@@ -22,7 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "@stoplight/elements": "9.0.30",
-    "chalk": "^5.2.0",
+    "chalk": "^6.0.0",
     "chokidar": "^6.0.0",
     "cors-anywhere": "~0.4.4",
     "express": "^5.1.0",
