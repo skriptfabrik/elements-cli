@@ -1,2 +1,11 @@
 [settings]
 idiomatic_version_file_enable_tools = ["node"]
+
+[tools]
+gh = "2.103.3"
+
+[tasks.install]
+description = "Installs dependencies with npm"
+run = "npm install"
+sources = ["package.json", "package-lock.json", "mise.toml"]
+outputs = ["node_modules/.package-lock.json"]

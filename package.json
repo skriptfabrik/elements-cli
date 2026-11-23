@@ -36,5 +36,12 @@
   },
   "bin": {
     "elements": "./elements-cli.mjs"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.22.3",
+      "onFail": "download"
+    }
   }
 }

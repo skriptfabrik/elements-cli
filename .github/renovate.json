@@ -11,9 +11,23 @@
   "labels": ["dependencies"],
   "timezone": "Europe/Berlin",
   "enabledManagers": [
+    "custom.regex",
+    "devcontainer",
     "dockerfile",
     "github-actions",
+    "mise",
     "npm"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Devcontainer feature versions annotated with renovate comments",
+      "managerFilePatterns": ["/^\\.devcontainer/devcontainer\\.json$/"],
+      "matchStrings": [
+        "//\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)\\s*\\n\\s*\"version\":\\s*\"(?<currentValue>[^\"]+)\""
+      ],
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    }
   ],
   "hostRules": [
     {
@@ -28,16 +42,39 @@
   },
   "packageRules": [
     {
+      "description": "Devcontainer updates are applied on Sundays",
+      "matchManagers": ["devcontainer"],
+      "addLabels": ["devcontainer"],
+      "schedule": ["* * * * 0"]
+    },
+    {
+      "description": "Devcontainer feature versions are updated on Sundays, final releases only",
+      "matchManagers": ["custom.regex"],
+      "matchFileNames": [".devcontainer/devcontainer.json"],
+      "allowedVersions": "/^\\d+\\.\\d+\\.\\d+$/",
+      "addLabels": ["devcontainer"],
+      "schedule": ["* * * * 0"]
+    },
+    {
+      "description": "Docker images are updated on Tuesdays",
       "matchManagers": ["dockerfile"],
       "addLabels": ["docker"],
       "schedule": ["* * * * 2"]
     },
     {
+      "description": "GitHub Actions are updated on Sundays",
       "matchManagers": ["github-actions"],
       "addLabels": ["github_actions"],
       "schedule": ["* * * * 0"]
     },
     {
+      "description": "Tools pinned via mise are updated on Sundays",
+      "matchManagers": ["mise"],
+      "addLabels": ["mise"],
+      "schedule": ["* * * * 0"]
+    },
+    {
+      "description": "JavaScript dependencies are updated on Mondays once released for a day",
       "matchManagers": ["npm"],
       "addLabels": ["javascript"],
       "minimumReleaseAge": "1 day",
@@ -50,6 +87,7 @@
       "schedule": ["* 0-3 * * 1"]
     },
     {
+      "description": "TypeScript type definitions are ignored",
       "matchManagers": ["npm"],
       "matchPackageNames": ["@types/*"],
       "enabled": false

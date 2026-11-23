@@ -1,30 +1,62 @@
 {
-  "name": "n8n-nodes",
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/refs/heads/main/schemas/devContainer.base.schema.json",
+  "name": "elements-cli",
   "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu-24.04",
   "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "24",
-      "nodeGypDependencies": true
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {
+      "moby": false,
+      // renovate: datasource=github-tags depName=docker/cli
+      "version": "29.10.0"
     },
-    "ghcr.io/devcontainers-extra/features/markdownlint-cli:1": {
-      "version": "latest"
-    },
-    "ghcr.io/devcontainers-extra/features/yamllint:2": {
-      "version": "latest"
+    "ghcr.io/devcontainers-extra/features/mise:1": {
+      // renovate: datasource=github-releases depName=jdx/mise
+      "version": "2026.11.12"
     }
   },
   "customizations": {
     "vscode": {
       "extensions": [
+        "anthropic.claude-code",
         "christian-kohler.npm-intellisense",
-        "EditorConfig.EditorConfig",
-        "esbenp.prettier-vscode",
-        "GitHub.copilot",
+        "editorconfig.editorconfig",
+        "github.copilot",
         "github.vscode-github-actions",
         "github.vscode-pull-request-github",
-        "hverlin.mise-vscode"
+        "hverlin.mise-vscode",
+        "tamasfe.even-better-toml"
       ]
     }
   },
-  "postCreateCommand": "npm install --no-audit --no-fund --no-update-notifier"
+  "mounts": [
+    {
+      "source": "vscode-cache-mise",
+      "target": "/home/vscode/.cache/mise",
+      "type": "volume"
+    },
+    {
+      "source": "vscode-claude",
+      "target": "/home/vscode/.claude",
+      "type": "volume"
+    },
+    {
+      "source": "vscode-config-gh",
+      "target": "/home/vscode/.config/gh",
+      "type": "volume"
+    },
+    {
+      "source": "vscode-local-share-mise",
+      "target": "/home/vscode/.local/share/mise",
+      "type": "volume"
+    }
+  ],
+  "containerEnv": {
+    "CLAUDE_CONFIG_DIR": "/home/vscode/.claude",
+    "MISE_TRUSTED_CONFIG_PATHS": "${containerWorkspaceFolder}"
+  },
+  "remoteEnv": {
+    "MISE_EXPERIMENTAL": "true",
+    "MISE_LOCKFILE": "true"
+  },
+  "onCreateCommand": ".devcontainer/hooks/on-create.sh",
+  "postCreateCommand": ".devcontainer/hooks/post-create.sh"
 }
